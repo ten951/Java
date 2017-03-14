@@ -54,6 +54,7 @@
             <artifactId>gson</artifactId>
             <version>2.1</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.lmax/disruptor -->
         <dependency>
             <groupId>com.lmax</groupId>
