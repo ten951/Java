@@ -30,7 +30,16 @@ public class Shop {
 
     private Random random = new Random();
 
-    public double getPrice(String product) {
+    //对应折扣服务 返回的价格格式
+    public String getPrice(String product) {
+        double price = calculatePrice(product);
+        Discount.Code code = Discount.Code.values()[
+                random.nextInt(Discount.Code.values().length)];
+        return String.format("%s:%.2f:%s", name, price, code);
+    }
+
+    //只返回商品价格
+    public double getPriceDouble(String product) {
         return calculatePrice(product);
     }
 

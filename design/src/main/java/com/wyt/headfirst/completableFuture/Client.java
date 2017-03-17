@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class Client {
 
     private static List<Shop> shops = Arrays.asList(new Shop("BestPrice"),
-            new Shop(":LetsSaveBig"),
+            new Shop("LetsSaveBig"),
             new Shop("MyFavoriteShop"),
             new Shop("BuyItAll"));
 
@@ -33,7 +33,7 @@ public class Client {
         long retrievalTime = (System.nanoTime() - start) / 1_000_000;
         System.out.println("retrievalTime:" + retrievalTime + " msecs");*/
         long start = System.nanoTime();
-        System.out.println(asyncFindpricesThread("myPhones27s"));
+        System.out.println(findprices("myPhones27s"));
         long duration = (System.nanoTime() - start) / 1_000_000;
         System.out.println("Done in " + duration + " msecs");
 
@@ -48,7 +48,9 @@ public class Client {
     public static List<String> findprices(String product) {
         return shops
                 .stream()
-                .map(shop -> String.format("%s price is %.2f", shop.getName(), shop.getPrice(product)))
+                .map(shop ->  shop.getPrice(product))
+                .map(Quote::parse)
+                .map(Discount::applyDiscount)
                 .collect(Collectors.toList());
     }
 
