@@ -2,9 +2,7 @@ package com.wyt.headfirst.completableFuture;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 /**
@@ -17,6 +15,8 @@ public class Client {
             new Shop(":LetsSaveBig"),
             new Shop("MyFavoriteShop"),
             new Shop("BuyItAll"));
+
+    private static final Executor executor = Executors.newFixedThreadPool(Math.min(shops.size(), 100));
 
     public static void main(String[] args) {
         Shop shop = new Shop("BestShop");
@@ -33,7 +33,7 @@ public class Client {
         long retrievalTime = (System.nanoTime() - start) / 1_000_000;
         System.out.println("retrievalTime:" + retrievalTime + " msecs");*/
         long start = System.nanoTime();
-        System.out.println(asyncFindprices("myPhones27s"));
+        System.out.println(asyncFindpricesThread("myPhones27s"));
         long duration = (System.nanoTime() - start) / 1_000_000;
         System.out.println("Done in " + duration + " msecs");
 
@@ -67,6 +67,7 @@ public class Client {
 
     /**
      * 最佳价格查询器(异步调用实现)
+     *
      * @param product 商品
      * @return
      */
@@ -79,6 +80,23 @@ public class Client {
                 .collect(Collectors.toList());
         //为了实现这个效果,我门可以向最初的List<CompletableFuture<String>>施加第二个map操作,对list中的每一个future对象执行join操作,一个接一个地等待他们允许结束,join和get方法
         //有相同的含义,不同的在于join不会抛出任何检测到的异常
+        return priceFuture
+                .stream()
+                .map(CompletableFuture::join)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 最佳价格查询器(异步调用实现,自定义执行器)
+     *
+     * @param product 商品
+     * @return
+     */
+    public static List<String> asyncFindpricesThread(String product) {
+        List<CompletableFuture<String>> priceFuture = shops
+                .stream()
+                .map(shop -> CompletableFuture.supplyAsync(() -> shop.getName() + " price is " + shop.getPrice(product), executor))
+                .collect(Collectors.toList());
         return priceFuture
                 .stream()
                 .map(CompletableFuture::join)
