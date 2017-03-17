@@ -20,10 +20,10 @@ public class PropertiesApplication {
     @Value("${book.name}")
     private String bookName;
 
-   /* @RequestMapping("/")
+    @RequestMapping("/")
     String index() {
         return "book name is:" + bookName + " and book author is:" + bookAuthor;
-    }*/
+    }
     public static void main(String[] args) {
         SpringApplication.run(PropertiesApplication.class, args);
     }

@@ -11,13 +11,14 @@ import java.util.ArrayList;
 
 /**
  * SpringMVC+thymeleaf 整合
+ *
  * @author Darcy
  *         Created by Administrator on 2017/3/14.
  */
 @Controller
 @SpringBootApplication
 public class IndexApplication {
-    @RequestMapping("/")
+    @RequestMapping("/index")
     public String index(Model model) {
         Person single = new Person("aa", 11);
         ArrayList<Person> people = new ArrayList<>();
@@ -30,6 +31,11 @@ public class IndexApplication {
         model.addAttribute("singlePerson", single);
         model.addAttribute("people", people);
         return "index";
+    }
+
+    @RequestMapping("/user")
+    public String test() {
+        return "测试拦截器方法";
     }
 
     public static void main(String[] args) {
