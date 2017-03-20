@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Darcy
@@ -32,25 +33,59 @@ public class Client {
         }
         long retrievalTime = (System.nanoTime() - start) / 1_000_000;
         System.out.println("retrievalTime:" + retrievalTime + " msecs");*/
+        //System.out.println(findPrices("myPhones27s"));
         long start = System.nanoTime();
-        System.out.println(findprices("myPhones27s"));
-        long duration = (System.nanoTime() - start) / 1_000_000;
-        System.out.println("Done in " + duration + " msecs");
+        CompletableFuture[] futures = findProcesStream("myPhones27s")
+                //Java 8的CompletableFuture通过thenAccept方法  他接收CompletableFuture执行完毕的返回值作为参数.
+                .map(f -> f.thenAccept(
+                        s -> System.out.println(s + " (done in " +
+                                ((System.nanoTime() - start) / 1_000_000) + " msecs)")))
+                .toArray(CompletableFuture[]::new);
+        //allOf工厂方法接收一个由CompletableFuture构成的数组,数组中所有的CompletableFuture对象执行完毕后,它返回一个
+        //CompletableFuture<Void>对象,这意味着你需要等待最初Stream中所有的CompletableFuture对象执行完毕
+        //angOf该方法接收一个CompletableFuture对象构成的数组,返回由第一个执行完毕的CompletableFuture对象的返回值构成的CompletableFuture<Object>
+        CompletableFuture.allOf(futures).join();
+        System.out.println("All shops have now responded in  " + ((System.nanoTime() - start) / 1_000_000) + " msecs");
+      /*  long duration = (System.nanoTime() - start) / 1_000_000;
+        System.out.println("Done in " + duration + " msecs");*/
 
     }
 
     /**
-     * 最佳价格查询器
+     * 商店折扣价格查询器
      *
      * @param product 商品
      * @return
      */
     public static List<String> findprices(String product) {
         return shops
-                .stream()
-                .map(shop ->  shop.getPrice(product))
+                .parallelStream()
+                .map(shop -> shop.getPrice(product))
                 .map(Quote::parse)
                 .map(Discount::applyDiscount)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 商店折扣价格查询器(CompletableFuture方式)
+     *
+     * @param product 商品
+     * @return
+     */
+    public static List<String> findPrices(String product) {
+        List<CompletableFuture<String>> collect = shops
+                .stream()
+                //以异步凡是取得每个shop中指定产品的原始价格
+                .map(shop -> CompletableFuture.supplyAsync(() -> shop.getPrice(product), executor))
+                //Quote对象存在时,对其返回值进行转换
+                .map(future -> future.thenApply(Quote::parse))
+                //使用另一个异步任务构建期望的Future,申请折扣 thenCompose 将多个future组合 一个一个执行
+                .map(future -> future.thenCompose(quote -> CompletableFuture.supplyAsync(() -> Discount.applyDiscount(quote), executor)))
+                .collect(Collectors.toList());
+        return collect
+                .stream()
+                //等待流中所有的future执行完毕,并提取各自的返回值
+                .map(CompletableFuture::join)
                 .collect(Collectors.toList());
     }
 
@@ -104,5 +139,23 @@ public class Client {
                 .map(CompletableFuture::join)
                 .collect(Collectors.toList());
     }
+
+    /**
+     * 重构findPrices方法 返回一个由Future构成的流
+     *
+     * @param product 商品
+     * @return
+     */
+    public static Stream<CompletableFuture<String>> findProcesStream(String product) {
+        return shops
+                .stream()
+                //以异步凡是取得每个shop中指定产品的原始价格
+                .map(shop -> CompletableFuture.supplyAsync(() -> shop.getPrice(product), executor))
+                //Quote对象存在时,对其返回值进行转换
+                .map(future -> future.thenApply(Quote::parse))
+                //使用另一个异步任务构建期望的Future,申请折扣 thenCompose 将多个future组合 一个一个执行
+                .map(future -> future.thenCompose(quote -> CompletableFuture.supplyAsync(() -> Discount.applyDiscount(quote), executor)));
+    }
+
 
 }

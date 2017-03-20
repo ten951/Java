@@ -28,7 +28,7 @@ public class Shop {
         this.name = name;
     }
 
-    private Random random = new Random();
+    private static Random random = new Random();
 
     //对应折扣服务 返回的价格格式
     public String getPrice(String product) {
@@ -50,7 +50,7 @@ public class Shop {
      * @return 价格
      */
     private double calculatePrice(String product) {
-        delay();
+        randomDelay();
         return random.nextDouble() * product.charAt(0) + product.charAt(1);
     }
 
@@ -74,6 +74,18 @@ public class Shop {
         return futurePrice;*/
 
         return CompletableFuture.supplyAsync(() -> calculatePrice(product));
+    }
+
+    /**
+     * 模拟不同的商店 延迟不一样的情况
+     */
+    public static void randomDelay() {
+        int delay = 500 + random.nextInt(2000);
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
