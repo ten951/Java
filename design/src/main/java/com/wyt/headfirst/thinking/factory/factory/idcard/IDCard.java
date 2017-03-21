@@ -10,6 +10,7 @@ import com.wyt.headfirst.thinking.factory.factory.framework.Product;
  */
 public class IDCard extends Product {
     private String owner;
+    private int serial;
 
     /**
      * 构造器不加修饰符,目的是无法通过new来构造对象,只能通过工厂方法createProduct构建
@@ -17,9 +18,14 @@ public class IDCard extends Product {
      *
      * @param owner 拥有着
      */
-    IDCard(String owner) {
-        System.out.println(" 制作" + owner + " 的ID卡");
+    IDCard(String owner, int serial) {
+        System.out.println(" 制作" + owner + "(" + serial + ")" + " 的ID卡");
         this.owner = owner;
+        this.serial = serial;
+    }
+
+    public int getSerial() {
+        return serial;
     }
 
     public String getOwner() {
@@ -28,6 +34,6 @@ public class IDCard extends Product {
 
     @Override
     public void use() {
-        System.out.println(" 使用" + owner + " 的ID卡");
+        System.out.println(" 使用" + owner + "(" + serial + ")" + " 的ID卡");
     }
 }
