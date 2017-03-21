@@ -1,4 +1,4 @@
-package com.wyt.headfirst.adapter;
+package com.wyt.headfirst.thinking.adapter;
 
 import java.io.IOException;
 

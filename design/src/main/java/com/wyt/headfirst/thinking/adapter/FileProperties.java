@@ -1,6 +1,5 @@
-package com.wyt.headfirst.adapter;
+package com.wyt.headfirst.thinking.adapter;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
