@@ -12,7 +12,8 @@ public class IDCard extends Product {
     private String owner;
 
     /**
-     * 私有化构造器,目的是无法通过new来构造对象,只能通过工厂方法createProduct构建
+     * 构造器不加修饰符,目的是无法通过new来构造对象,只能通过工厂方法createProduct构建
+     * 权限:只有自己类内部,子类,同包的类 能够访问构造器
      *
      * @param owner 拥有着
      */
