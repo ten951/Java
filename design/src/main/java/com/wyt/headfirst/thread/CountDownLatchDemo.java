@@ -1,10 +1,7 @@
 package com.wyt.headfirst.thread;
 
 import java.util.Random;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.*;
 
 /**
  * @author Darcy
@@ -37,8 +34,9 @@ public class CountDownLatchDemo implements Runnable {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        ExecutorService exec = Executors.newFixedThreadPool(10);
-
+       // ExecutorService exec = Executors.newFixedThreadPool(10);
+        ExecutorService exec = ThreadPoolUtils.getExecutor();
+        ExecutorService exec1 = ThreadPoolUtils.getExecutor();
         for (int i = 0; i < 10; i++) {
             exec.submit(demo);
         }

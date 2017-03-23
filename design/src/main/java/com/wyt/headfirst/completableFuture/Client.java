@@ -17,7 +17,7 @@ public class Client {
             new Shop("MyFavoriteShop"),
             new Shop("BuyItAll"));
 
-    private static final Executor executor = Executors.newFixedThreadPool(Math.min(shops.size(), 100));
+    private static final ExecutorService executor = Executors.newFixedThreadPool(Math.min(shops.size(), 100));
 
     public static void main(String[] args) {
         Shop shop = new Shop("BestShop");
