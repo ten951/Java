@@ -13,7 +13,8 @@ import com.wyt.headfirst.thinking.abstractfactory.factory.Tray;
  */
 public class Main {
     public static void main(String[] args) {
-        Factory factory = Factory.getFactory("com.wyt.headfirst.thinking.abstractfactory.listfactory.ListFactory");
+       // Factory factory = Factory.getFactory("com.wyt.headfirst.thinking.abstractfactory.listfactory.ListFactory");
+        Factory factory = Factory.getFactory("com.wyt.headfirst.thinking.abstractfactory.tablefactory.TableFactory");
         Link people = factory.createLink(" 人民日报", "http://www.people.com.cn/");
         Link gmw = factory.createLink(" 光明日报", "http://www.gmw.cn/");
 
