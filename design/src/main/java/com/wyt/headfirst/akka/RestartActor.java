@@ -1,7 +1,6 @@
 package com.wyt.headfirst.akka;
 
 import akka.actor.*;
-import com.typesafe.config.ConfigFactory;
 import scala.Option;
 
 /**
