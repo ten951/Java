@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shengya.service.dao.ActivityCommentDao">
+    <resultMap id="BaseResultMap" type="com.shengya.service.bean.ActivityComment" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="pid" property="pid" jdbcType="INTEGER" />
+        <result column="aid" property="aid" jdbcType="INTEGER" />
+        <result column="uid" property="uid" jdbcType="INTEGER" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="user_logo" property="userLogo" jdbcType="VARCHAR" />
+        <result column="to_uid" property="toUid" jdbcType="INTEGER" />
+        <result column="to_username" property="toUsername" jdbcType="VARCHAR" />
+        <result column="to_userlogo" property="toUserlogo" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List" >
+        id, pid, aid, uid, content, create_date, is_delete, username, user_logo, to_uid,
+        to_username, to_userlogo
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shengya.service.bean.ActivityCommentExample" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from activity_comment
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from activity_comment
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from activity_comment
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.shengya.service.bean.ActivityCommentExample" >
+        delete from activity_comment
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.shengya.service.bean.ActivityComment" >
+        insert into activity_comment (id, pid, aid,
+        uid, content, create_date,
+        is_delete, username, user_logo,
+        to_uid, to_username, to_userlogo
+        )
+        values (#{id,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{aid,jdbcType=INTEGER},
+        #{uid,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+        #{isDelete,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{userLogo,jdbcType=VARCHAR},
+        #{toUid,jdbcType=INTEGER}, #{toUsername,jdbcType=VARCHAR}, #{toUserlogo,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertBackId" parameterType="com.shengya.service.bean.ActivityComment" useGeneratedKeys="true"
+            keyProperty="id">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID() as id
+        </selectKey>
+        insert into activity_comment (id, pid, aid,
+        uid, content, create_date,
+        is_delete, username, user_logo,
+        to_uid, to_username, to_userlogo
+        )
+        values (#{id,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{aid,jdbcType=INTEGER},
+        #{uid,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+        #{isDelete,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{userLogo,jdbcType=VARCHAR},
+        #{toUid,jdbcType=INTEGER}, #{toUsername,jdbcType=VARCHAR}, #{toUserlogo,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.shengya.service.bean.ActivityComment" >
+        insert into activity_comment
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="pid != null" >
+                pid,
+            </if>
+            <if test="aid != null" >
+                aid,
+            </if>
+            <if test="uid != null" >
+                uid,
+            </if>
+            <if test="content != null" >
+                content,
+            </if>
+            <if test="createDate != null" >
+                create_date,
+            </if>
+            <if test="isDelete != null" >
+                is_delete,
+            </if>
+            <if test="username != null" >
+                username,
+            </if>
+            <if test="userLogo != null" >
+                user_logo,
+            </if>
+            <if test="toUid != null" >
+                to_uid,
+            </if>
+            <if test="toUsername != null" >
+                to_username,
+            </if>
+            <if test="toUserlogo != null" >
+                to_userlogo,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="pid != null" >
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="aid != null" >
+                #{aid,jdbcType=INTEGER},
+            </if>
+            <if test="uid != null" >
+                #{uid,jdbcType=INTEGER},
+            </if>
+            <if test="content != null" >
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null" >
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null" >
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="username != null" >
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="userLogo != null" >
+                #{userLogo,jdbcType=VARCHAR},
+            </if>
+            <if test="toUid != null" >
+                #{toUid,jdbcType=INTEGER},
+            </if>
+            <if test="toUsername != null" >
+                #{toUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="toUserlogo != null" >
+                #{toUserlogo,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.shengya.service.bean.ActivityCommentExample" resultType="java.lang.Integer" >
+        select count(*) from activity_comment
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+        update activity_comment
+        <set >
+            <if test="record!=null">
+                <if test="record.id != null" >
+                    id = #{record.id,jdbcType=INTEGER},
+                </if>
+                <if test="record.pid != null" >
+                    pid = #{record.pid,jdbcType=INTEGER},
+                </if>
+                <if test="record.aid != null" >
+                    aid = #{record.aid,jdbcType=INTEGER},
+                </if>
+                <if test="record.uid != null" >
+                    uid = #{record.uid,jdbcType=INTEGER},
+                </if>
+                <if test="record.content != null" >
+                    content = #{record.content,jdbcType=VARCHAR},
+                </if>
+                <if test="record.createDate != null" >
+                    create_date = #{record.createDate,jdbcType=TIMESTAMP},
+                </if>
+                <if test="record.isDelete != null" >
+                    is_delete = #{record.isDelete,jdbcType=INTEGER},
+                </if>
+                <if test="record.username != null" >
+                    username = #{record.username,jdbcType=VARCHAR},
+                </if>
+                <if test="record.userLogo != null" >
+                    user_logo = #{record.userLogo,jdbcType=VARCHAR},
+                </if>
+                <if test="record.toUid != null" >
+                    to_uid = #{record.toUid,jdbcType=INTEGER},
+                </if>
+                <if test="record.toUsername != null" >
+                    to_username = #{record.toUsername,jdbcType=VARCHAR},
+                </if>
+                <if test="record.toUserlogo != null" >
+                    to_userlogo = #{record.toUserlogo,jdbcType=VARCHAR},
+                </if>
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map" >
+        update activity_comment
+        set id = #{record.id,jdbcType=INTEGER},
+        pid = #{record.pid,jdbcType=INTEGER},
+        aid = #{record.aid,jdbcType=INTEGER},
+        uid = #{record.uid,jdbcType=INTEGER},
+        content = #{record.content,jdbcType=VARCHAR},
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+        is_delete = #{record.isDelete,jdbcType=INTEGER},
+        username = #{record.username,jdbcType=VARCHAR},
+        user_logo = #{record.userLogo,jdbcType=VARCHAR},
+        to_uid = #{record.toUid,jdbcType=INTEGER},
+        to_username = #{record.toUsername,jdbcType=VARCHAR},
+        to_userlogo = #{record.toUserlogo,jdbcType=VARCHAR}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.shengya.service.bean.ActivityComment" >
+        update activity_comment
+        <set >
+            <if test="pid != null" >
+                pid = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="aid != null" >
+                aid = #{aid,jdbcType=INTEGER},
+            </if>
+            <if test="uid != null" >
+                uid = #{uid,jdbcType=INTEGER},
+            </if>
+            <if test="content != null" >
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null" >
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null" >
+                is_delete = #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="username != null" >
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="userLogo != null" >
+                user_logo = #{userLogo,jdbcType=VARCHAR},
+            </if>
+            <if test="toUid != null" >
+                to_uid = #{toUid,jdbcType=INTEGER},
+            </if>
+            <if test="toUsername != null" >
+                to_username = #{toUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="toUserlogo != null" >
+                to_userlogo = #{toUserlogo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.shengya.service.bean.ActivityComment" >
+        update activity_comment
+        set pid = #{pid,jdbcType=INTEGER},
+        aid = #{aid,jdbcType=INTEGER},
+        uid = #{uid,jdbcType=INTEGER},
+        content = #{content,jdbcType=VARCHAR},
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+        is_delete = #{isDelete,jdbcType=INTEGER},
+        username = #{username,jdbcType=VARCHAR},
+        user_logo = #{userLogo,jdbcType=VARCHAR},
+        to_uid = #{toUid,jdbcType=INTEGER},
+        to_username = #{toUsername,jdbcType=VARCHAR},
+        to_userlogo = #{toUserlogo,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <sql id="selectConditionBean" >
+        <where>
+            <trim suffixOverrides="and">
+                <if test="entity != null">
+                    <if test="entity.id != null" >
+                        and id = #{entity.id,jdbcType=INTEGER}
+                    </if>
+                    <if test="entity.pid != null" >
+                        and pid = #{entity.pid,jdbcType=INTEGER}
+                    </if>
+                    <if test="entity.aid != null" >
+                        and aid = #{entity.aid,jdbcType=INTEGER}
+                    </if>
+                    <if test="entity.uid != null" >
+                        and uid = #{entity.uid,jdbcType=INTEGER}
+                    </if>
+                    <if test="entity.content != null" >
+                        and content = #{entity.content,jdbcType=VARCHAR}
+                    </if>
+                    <if test="entity.createDate != null" >
+                        and create_date = #{entity.createDate,jdbcType=TIMESTAMP}
+                    </if>
+                    <if test="entity.isDelete != null" >
+                        and is_delete = #{entity.isDelete,jdbcType=INTEGER}
+                    </if>
+                    <if test="entity.username != null" >
+                        and username = #{entity.username,jdbcType=VARCHAR}
+                    </if>
+                    <if test="entity.userLogo != null" >
+                        and user_logo = #{entity.userLogo,jdbcType=VARCHAR}
+                    </if>
+                    <if test="entity.toUid != null" >
+                        and to_uid = #{entity.toUid,jdbcType=INTEGER}
+                    </if>
+                    <if test="entity.toUsername != null" >
+                        and to_username = #{entity.toUsername,jdbcType=VARCHAR}
+                    </if>
+                    <if test="entity.toUserlogo != null" >
+                        and to_userlogo = #{entity.toUserlogo,jdbcType=VARCHAR}
+                    </if>
+                </if>
+            </trim>
+            <trim suffixOverrides="and">
+                <if test="whereSql!=null">
+                    and ${whereSql}
+                </if>
+            </trim>
+        </where>
+    </sql>
+    <select id="getTotalByEntity" resultType="java.lang.Integer" >
+        select count(*) from activity_comment
+        <include refid="selectConditionBean"/>
+    </select>
+    <select id="getListByEntityAndPageInfo" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from activity_comment
+        <include refid="selectConditionBean" />
+        <if test="orderBy!=null">
+            ${orderBy}
+        </if>
+        <if test="pageInfo!=null">
+            limit ${pageInfo.startIndex} ,${pageInfo.pagesize}
+        </if>
+    </select>
+
+    <!-- 代理商查询-->
+    <select id="selectActivityCommentVoAcount" resultType="java.lang.Integer" >
+        SELECT COUNT(*)
+        FROM `activity_comment` am
+        INNER JOIN `circle_activity` ca ON am.aid = ca.id
+        <include refid="selectActivityCommentVoBean"/>
+    </select>
+
+    <select id="selectActivityCommentVo" resultMap="activityCommentVoMap" >
+        SELECT am.`id` AS id,am.`content` AS content,am.`create_date` AS createDate,ca.`name` AS name
+        FROM `activity_comment` am
+        INNER JOIN `circle_activity` ca ON am.aid = ca.id
+        <include refid="selectActivityCommentVoBean"/>
+        ORDER BY am.id DESC
+        <if test="pageInfo!=null">
+            limit ${pageInfo.startIndex} ,${pageInfo.pagesize}
+        </if>
+    </select>
+
+    <sql id="selectActivityCommentVoBean" >
+        <where>
+            <trim suffixOverrides="and">
+                <if test="entity != null">
+                    <if test="entity.content != null" >
+                        and am.content like CONCAT('%',#{entity.content,jdbcType=VARCHAR},'%')
+                    </if>
+                    <if test="entity.cityName != null" >
+                        AND ca.is_delete = 0
+                        AND ca.region like CONCAT('%', #{entity.cityName,jdbcType=VARCHAR},'%')
+                    </if>
+                    AND am.is_delete = 0
+                    and am.pid = 0
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <resultMap id="activityCommentVoMap" type="com.shengya.service.vo.ActivityCommentVo" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="username" property="userName" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="cityName" property="cityName" jdbcType="VARCHAR" />
+    </resultMap>
+</mapper>
