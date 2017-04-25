@@ -13,7 +13,7 @@ import org.apache.spark.api.java.function.Function;
 public class SimpleApp {
 
     public static void main(String[] args) {
-        String logFile = "D:\\用户目录\\我的文档\\读取xml失败\\Log\\Auth"; // Should be some file on your system
+        String logFile = "d:\\catalina.out"; // Should be some file on your system
         SparkConf conf = new SparkConf().setAppName("Simple Application");
         JavaSparkContext sc = new JavaSparkContext(conf);
         JavaRDD<String> inputRDD = sc.textFile(logFile);
@@ -22,7 +22,7 @@ public class SimpleApp {
         JavaRDD<String> errorRDD = inputRDD
                 .filter((Function<String, Boolean>) s -> s.contains("Response Code : 400"));
         JavaRDD<String> union = successRDD.union(errorRDD);
-
+        System.out.println("union = " + union);
         System.out.println("Input had = " + inputRDD.count() + " concerning lines");
         System.out.println("Here are 10 examples: ");
         for (String s : inputRDD.take(10)) {
