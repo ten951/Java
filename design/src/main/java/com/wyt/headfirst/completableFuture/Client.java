@@ -19,6 +19,7 @@ public class Client {
 
     private static final ExecutorService executor = Executors.newFixedThreadPool(Math.min(shops.size(), 100));
 
+
     public static void main(String[] args) {
         Shop shop = new Shop("BestShop");
          /*long start = System.nanoTime();

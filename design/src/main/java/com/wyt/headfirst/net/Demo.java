@@ -17,6 +17,11 @@ import java.util.stream.Stream;
  */
 public class Demo {
 
+
+    public <T extends Comparable<? super T>> T test(T f) {
+        return null;
+    }
+
     public static void downloadWeb(String url) {
         try {
             URL u = new URL(url);
