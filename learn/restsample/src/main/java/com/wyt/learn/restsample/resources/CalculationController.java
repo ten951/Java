@@ -10,11 +10,19 @@ import java.util.List;
  * @author Darcy
  *         Created by Darcy on 2017/7/17.
  */
-@RestController
+@RestController //是@Controller和@ResponseBody的组和,因此返回一个域对象.而不是试图
 @RequestMapping("/calculation")
 public class CalculationController {
+    //为使用现成的基本检查,我们使用了正则表达式 来只允许有效的数字做为参数
     private static final String PATTERN = "^-?+\\d+\\.?+\\d*$";
 
+    /**
+     * (@RequestParam) 负责将查询参数绑定到控制器方法的参数.value是参数名称.defaultValue 默认值.
+     *
+     * @param b 底数
+     * @param e 指数
+     * @return Json
+     */
     @RequestMapping("/power")
     public Calculation pow(@RequestParam(value = "base") String b, @RequestParam(value = "exponent") String e) {
         List<String> input = new ArrayList<>();
@@ -31,6 +39,12 @@ public class CalculationController {
         return new Calculation(input, output, "power");
     }
 
+    /**
+     * 求平方根 (@PathVariable 允许您将Java参数映射到一个路径参数上,在URI中创建占位符)
+     *
+     * @param aValue
+     * @return
+     */
     @RequestMapping(value = "/sqrt/{value:.+}", method = RequestMethod.GET)
     public Calculation sqrt(@PathVariable(value = "value") String aValue) {
         List<String> input = new ArrayList<>();
