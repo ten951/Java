@@ -25,4 +25,11 @@ public class Restaurant extends BaseEntity<String> {
     public void setTables(List<Table> tables) {
         this.tables = tables;
     }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "tables=" + tables +
+                '}';
+    }
 }

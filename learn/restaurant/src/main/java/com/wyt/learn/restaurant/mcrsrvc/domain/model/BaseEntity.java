@@ -7,18 +7,15 @@ package com.wyt.learn.restaurant.mcrsrvc.domain.model;
  *         Created by Darcy on 2017/7/17.
  */
 public abstract class BaseEntity<T> extends Entity<T> {
-    private T id;
+    private boolean isModified;
 
     public BaseEntity(T id, String name) {
         super.id = id;
         super.name = name;
     }
 
-    public T getId() {
-        return id;
+    public boolean isIsModified() {
+        return isModified;
     }
 
-    public void setId(T id) {
-        this.id = id;
-    }
 }
