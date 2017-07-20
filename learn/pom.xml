@@ -10,6 +10,7 @@
     <modules>
         <module>design</module>
         <module>restaurant</module>
+        <module>otps</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
