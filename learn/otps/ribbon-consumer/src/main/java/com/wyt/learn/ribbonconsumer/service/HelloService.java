@@ -1,18 +1,21 @@
 package com.wyt.learn.ribbonconsumer.service;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.netflix.hystrix.contrib.javanica.annotation.ObservableExecutionMode;
 import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheKey;
 import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheRemove;
 import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheResult;
 import com.netflix.hystrix.contrib.javanica.command.AsyncResult;
 import com.wyt.learn.ribbonconsumer.model.User;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import rx.Observable;
-import rx.Subscriber;
 
+import java.util.List;
 import java.util.concurrent.Future;
 
 /**
@@ -23,6 +26,32 @@ import java.util.concurrent.Future;
 public class HelloService {
     @Autowired
     RestTemplate restTemplate;
+
+
+    /**
+     * 批量请求合并器
+     * timerDelayInMilliseconds (合并时间窗设置为100毫秒)
+     *
+     * @param id 主键
+     * @return
+     */
+    @HystrixCollapser(batchMethod = "findAll", collapserProperties = {
+            @HystrixProperty(name = "timerDelayInMilliseconds", value = "100")
+    })
+    public User find(Long id) {
+        return null;
+    }
+
+    /**
+     * 批量查询用户信息
+     *
+     * @param ids 主键集合
+     * @return
+     */
+    @HystrixCommand
+    public List findAll(List<Long> ids) {
+        return restTemplate.getForObject("http://USER-SERVICE/users?ids={1}", List.class, StringUtils.join(ids, ","));
+    }
 
     @HystrixCommand(fallbackMethod = "helloFallback")
     public String helloService() {
@@ -88,6 +117,7 @@ public class HelloService {
      * 更新用户并且清除缓存
      * commandKey 命令名称
      * CacheKey 缓存key
+     *
      * @param user 用户
      */
     @CacheRemove(commandKey = "getUserById")
