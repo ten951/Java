@@ -40,11 +40,14 @@ public class HelloService {
 
     /**
      * 主键查询用户(异步方式)
+     * commandKey 命令名称
+     * groupKey 组名
+     * threadPoolKey 线程池名称
      *
      * @param id 主键
      * @return
      */
-    @HystrixCommand(fallbackMethod = "defaultUser")
+    @HystrixCommand(fallbackMethod = "defaultUser", commandKey = "getUserById", groupKey = "UserGroup", threadPoolKey = "getUserByThread")
     public Future<User> getUserByIdAsync(final Long id) {
         return new AsyncResult<User>() {
             @Override
