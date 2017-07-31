@@ -21,4 +21,4 @@ Spring Cloud Hystrix(服务容错保护)
 >>可以构建同步/异步API      
 >>可以构建服务降级(俗称 命令执行失败后的操作) 写请求一般返回值void 可以不降级        
 >>命令名称.分组,线程池的划分(commandKey,groupKey,threadPoolKey)     
->>请求缓存 
+>>请求缓存 @CacheResult或者 @CacheResult(cacheKeyMethod = "getUserByIdCacheKey")实现 也可以@CacheResult配合@CacheKey("id")实现

@@ -2,6 +2,9 @@ package com.wyt.learn.ribbonconsumer.service;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.ObservableExecutionMode;
+import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheKey;
+import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheRemove;
+import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheResult;
 import com.netflix.hystrix.contrib.javanica.command.AsyncResult;
 import com.wyt.learn.ribbonconsumer.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +35,15 @@ public class HelloService {
      * @param id 主键
      * @return
      */
+    @CacheResult(cacheKeyMethod = "getUserByIdCacheKey")
     @HystrixCommand(fallbackMethod = "defaultUser")
     public User getUserById(final Long id) {
         return restTemplate.getForObject("http://USER-SERVICE/users/{1}", User.class, id);
     }
 
+    private Long getUserByIdCacheKey(Long id) {
+        return id;
+    }
 
     /**
      * 主键查询用户(异步方式)
@@ -64,8 +71,9 @@ public class HelloService {
      * @param id 主键
      * @return
      */
+    @CacheResult
     @HystrixCommand(observableExecutionMode = ObservableExecutionMode.EAGER, fallbackMethod = "defaultUser")
-    public Observable<User> getUserByIdOb(final Long id) {
+    public Observable<User> getUserByIdOb(@CacheKey("id") final Long id) {
         return Observable.create(observer -> {
             if (!observer.isUnsubscribed()) {
                 User user = restTemplate.getForObject("http://USER-SERVICE/users/{1}", User.class, id);
@@ -73,6 +81,19 @@ public class HelloService {
                 observer.onCompleted();
             }
         });
+    }
+
+
+    /**
+     * 更新用户并且清除缓存
+     * commandKey 命令名称
+     * CacheKey 缓存key
+     * @param user 用户
+     */
+    @CacheRemove(commandKey = "getUserById")
+    @HystrixCommand()
+    public void update(@CacheKey("id") User user) {
+        restTemplate.postForObject("http://USER-SERVICE/users/", user, User.class);
     }
 
     @HystrixCommand(fallbackMethod = "defaultUserSec")
