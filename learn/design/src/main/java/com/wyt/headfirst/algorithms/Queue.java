@@ -3,13 +3,15 @@ package com.wyt.headfirst.algorithms;
 import java.util.Iterator;
 
 /**
- * 栈的实现(链表)
+ * 基于链表实现队列
+ *
  * @author Darcy
- * Created By Darcy on 2017/8/22 下午1:38
+ * Created By Darcy on 2017/8/22 下午1:56
  */
-public class Stack<T> implements Iterable<T> {
-    private Node first;
-    private int N;
+public class Queue<T> implements Iterable<T> {
+    private Node first;//队列开头
+    private Node last;//队列末尾
+    private int N;//队列长度
 
     private class Node {
         T t;
@@ -24,28 +26,30 @@ public class Stack<T> implements Iterable<T> {
         return N;
     }
 
-    public void push(T t) {
-        Node oldfirst = first;
-        first = new Node();
-        first.t = t;
-        first.next = oldfirst;
+    public void enqueue(T t) {
+        Node oldlast = last;
+        last = new Node();
+        last.t = t;
+        last.next = null;
+        if (isEmpty()) first = last;
+        else oldlast.next = last;
         N++;
     }
 
-    public T pop() {
+    public T dequeue() {
         T t = first.t;
         first = first.next;
+        if (isEmpty()) last = null;
         N--;
         return t;
     }
 
     @Override
     public Iterator<T> iterator() {
-        return new StackIterator();
+        return new QueueIterator();
     }
 
-    private class StackIterator implements Iterator<T> {
-
+    private class QueueIterator implements Iterator<T> {
         private Node current = first;
 
         @Override
