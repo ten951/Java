@@ -1,5 +1,8 @@
 package com.wyt.headfirst.thread;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Darcy
  *         Created by Administrator on 2016/12/7.
@@ -34,7 +37,6 @@ public class AccountingSync implements Runnable {
         t1.start();t2.start();
         t1.join();t2.join();
         System.out.println("i = " + i);*/
-
 
     }
 }

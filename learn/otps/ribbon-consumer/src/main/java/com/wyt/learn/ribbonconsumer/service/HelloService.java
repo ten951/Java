@@ -25,7 +25,7 @@ import java.util.concurrent.Future;
 @Service
 public class HelloService {
     @Autowired
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
 
     /**
