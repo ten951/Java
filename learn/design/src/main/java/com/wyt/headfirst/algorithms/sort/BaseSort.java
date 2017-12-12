@@ -5,6 +5,7 @@ package com.wyt.headfirst.algorithms.sort;
  * Created By Darcy on 2017/8/22 下午6:28
  */
 public abstract class BaseSort<T> {
+
     public abstract void sort(Comparable<T>[] a);
 
     public boolean less(Comparable<T> v, Comparable<T> w) {

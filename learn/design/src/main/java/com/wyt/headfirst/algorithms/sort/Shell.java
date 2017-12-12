@@ -4,9 +4,9 @@ package com.wyt.headfirst.algorithms.sort;
  * @author Darcy
  * Created By Darcy on 2017/8/23 下午2:55
  */
-public class Shell extends BaseSort<Integer> {
+public class Shell<T> extends BaseSort<T> {
     @Override
-    public void sort(Comparable<Integer>[] a) {
+    public void sort(Comparable<T>[] a) {
         int N = a.length;
         int h = 1;
         while (h < N / 3) h = 3 * h + 1;

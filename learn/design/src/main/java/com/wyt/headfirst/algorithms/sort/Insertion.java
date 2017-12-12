@@ -6,9 +6,9 @@ package com.wyt.headfirst.algorithms.sort;
  * @author Darcy
  * Created By Darcy on 2017/8/23 下午2:13
  */
-public class Insertion extends BaseSort<Integer> {
+public class Insertion<T> extends BaseSort<T> {
     @Override
-    public void sort(Comparable<Integer>[] a) {
+    public void sort(Comparable<T>[] a) {
         int N = a.length;
         for (int i = 1; i < N; i++) {
             for (int j = i; j > 0 && less(a[j], a[j - 1]); j--) {
