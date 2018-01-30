@@ -4,6 +4,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Semaphore;
 
 /**
+ * 流量控制(信号量)
  * @author Darcy
  *         Created by Administrator on 2017/5/10.
  */

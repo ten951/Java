@@ -31,7 +31,9 @@ public class WorkStealingChannel<T> implements WorkStealingEnabledChannel<T> {
             targetQueue = managedQueues[queueIndex];
             //试图从其他受管队列对尾"窃取""产品"
             product = targetQueue.pollLast();
-            if (preferredQueue == targetQueue) break;
+            if (preferredQueue == targetQueue) {
+                break;
+            }
 
         }
         if (null == product) {

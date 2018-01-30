@@ -2,7 +2,7 @@ package com.wyt.headfirst.thread.producerconsumer;
 
 /**
  * @author Darcy
- *         Created by Administrator on 2017/5/8.
+ * Created by Administrator on 2017/5/8.
  */
 public interface Channel<P> {
     /**

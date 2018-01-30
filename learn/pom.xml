@@ -11,6 +11,7 @@
         <module>design</module>
         <module>restaurant</module>
         <module>otps</module>
+        <module>netty1</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -91,7 +92,11 @@
             <artifactId>akka-agent_2.11</artifactId>
             <version>2.5-M2</version>
         </dependency>
-
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.12.Final</version>
+        </dependency>
     </dependencies>
 
 
