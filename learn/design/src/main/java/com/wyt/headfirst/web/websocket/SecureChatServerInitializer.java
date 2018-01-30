@@ -7,10 +7,9 @@ import io.netty.handler.ssl.SslHandler;
 
 import javax.net.ssl.SSLEngine;
 
+
 /**
- * Listing 12.6 Adding encryption to the ChannelPipeline
- *
- * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
+ * @author eudora
  */
 public class SecureChatServerInitializer extends ChatServerInitializer {
     private final SslContext context;

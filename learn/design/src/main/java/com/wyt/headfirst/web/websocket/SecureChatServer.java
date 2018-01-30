@@ -9,10 +9,9 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
 
 import java.net.InetSocketAddress;
 
+
 /**
- * Listing 12.7 Adding encryption to the ChatServer
- *
- * @author <a href="mailto:norman.maurer@gmail.com">Norman Maurer</a>
+ * @author eudora
  */
 public class SecureChatServer extends ChatServer {
     private final SslContext context;
