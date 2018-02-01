@@ -1,4 +1,4 @@
-package com.wyt.headfirst.web.Chapter4;
+package com.wyt.headfirst.web.chapter4;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;

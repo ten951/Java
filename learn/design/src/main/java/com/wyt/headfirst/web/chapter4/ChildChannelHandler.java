@@ -1,4 +1,4 @@
-package com.wyt.headfirst.web.Chapter4;
+package com.wyt.headfirst.web.chapter4;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
