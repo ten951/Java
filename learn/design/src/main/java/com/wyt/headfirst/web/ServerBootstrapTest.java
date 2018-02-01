@@ -24,9 +24,10 @@ public class ServerBootstrapTest {
                 .childHandler(new SimpleChannelInboundHandler<ByteBuf>() {
 
                     @Override
-                    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
+                    protected void messageReceived(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) throws Exception {
                         System.out.println("Received data");
                     }
+
                 });
         ChannelFuture future = bootstrap.bind(new InetSocketAddress(8080));
         future.addListener((ChannelFutureListener) future1 -> {

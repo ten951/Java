@@ -17,10 +17,6 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
         this.group = group;
     }
 
-    @Override
-    protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
-        group.writeAndFlush(msg.retain());
-    }
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
@@ -31,5 +27,10 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
         } else {
             super.userEventTriggered(ctx, evt);
         }
+    }
+
+    @Override
+    protected void messageReceived(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame) throws Exception {
+        group.writeAndFlush(textWebSocketFrame.retain());
     }
 }

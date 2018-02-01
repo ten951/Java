@@ -7,8 +7,6 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.sctp.nio.NioSctpChannel;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.net.InetSocketAddress;
@@ -24,13 +22,12 @@ public class BootstrapClientTest {
         bootstrap.group(group)
                 .channel(NioSocketChannel.class)
                 .handler(new SimpleChannelInboundHandler<ByteBuf>() {
-
                     @Override
-                    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
+                    protected void messageReceived(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
                         System.out.println("Received data");
                     }
                 });
-        ChannelFuture future = bootstrap.connect(new InetSocketAddress("127.0.0.1",8080));
+        ChannelFuture future = bootstrap.connect(new InetSocketAddress("127.0.0.1", 8080));
         future.addListener((ChannelFutureListener) future1 -> {
             if (future1.isSuccess()) {
                 System.out.println("Connection established");

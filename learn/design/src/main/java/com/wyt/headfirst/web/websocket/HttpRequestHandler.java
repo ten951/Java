@@ -37,21 +37,21 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
     }
 
     @Override
-    public void channelRead0(ChannelHandlerContext ctx,
+    public void messageReceived(ChannelHandlerContext ctx,
                              FullHttpRequest request) throws Exception {
         if (wsUri.equalsIgnoreCase(request.uri())) {
             ctx.fireChannelRead(request.retain());
         } else {
-            if (HttpUtil.is100ContinueExpected(request)) {
+            if (HttpHeaderUtil.is100ContinueExpected(request)) {
                 send100Continue(ctx);
             }
             RandomAccessFile file = new RandomAccessFile(INDEX, "r");
             HttpResponse response = new DefaultHttpResponse(
                     request.protocolVersion(), HttpResponseStatus.OK);
             response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html; charset=UTF-8");
-            boolean keepAlive = HttpUtil.isKeepAlive(request);
+            boolean keepAlive = HttpHeaderUtil.isKeepAlive(request);
             if (keepAlive) {
-                response.headers().set(HttpHeaderNames.CONTENT_LENGTH, file.length());
+                response.headers().setLong(HttpHeaderNames.CONTENT_LENGTH, file.length());
                 response.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
             }
             ctx.write(response);
@@ -79,4 +79,6 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
         cause.printStackTrace();
         ctx.close();
     }
+
+
 }
